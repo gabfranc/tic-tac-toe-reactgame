@@ -7,6 +7,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  border-color: #f29123;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+#players.hightlight-player li.active .player-name,
+#players.highlight-player li.active .player-symbol {
+  color: #926efdab;
+}
+
+#players button {
+  width: rem;
+  border: none;
+  background: none;
+  color: bisque;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0.5rem 0.25rem;
+  text-align: center;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

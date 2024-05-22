@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Danfo&family=Jersey+25+Charted&display=swap');
+
 .App {
   background-color: blanchedalmond;
   text-align: center;
@@ -24,6 +26,28 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(92, 138, 203);
+}
+
+#game-container {
+  font-family: "Jersey 25 Charted", sans-serif;
+  background-color: rgb(214, 188, 128);
+  padding: 28px 46px 46px 28px;
+  justify-content: center;
+  align-items: center;
+}
+
+GameBoard {
+  font-family: "Jersey 25 Charted", sans-serif;
+}
+
+input {
+  width: 12vh;
+}
+
+ol {
+  display: flex;
+  flex-direction: row;
+  gap: 12vh;
 }
 
 .App-link {
