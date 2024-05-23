@@ -1,12 +1,10 @@
-import { useState } from 'react';
-
 const initialGameBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
 ];
 
-export default function GameBoard({ onSelectSquare }) {
+export default function GameBoard({ onSelectSquare, turns }) {
   const buttonStyle = {
     width: '15vh',
     height: '15vh',
@@ -19,17 +17,25 @@ export default function GameBoard({ onSelectSquare }) {
     margin: '10px', // This creates a gap between the buttons
   };
 
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
+  let gameBoard = initialGameBoard;
 
-  function handleSelectSquare(rowIndex, colIndex) {
-    setGameBoard((prevGameBoard) => {
-      const updatedBoard = prevGameBoard.map((row) => row.slice());
-      updatedBoard[rowIndex][colIndex] = 'X';
-      return updatedBoard;
-    });
+  for ( const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square;
 
-    onSelectSquare();
+    gameBoard[row][col] = player;
   }
+  // const [gameBoard, setGameBoard] = useState(initialGameBoard);
+
+  // function handleSelectSquare(rowIndex, colIndex) {
+  //   setGameBoard((prevGameBoard) => {
+  //     const updatedBoard = prevGameBoard.map((row) => row.slice());
+  //     updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
+  //     return updatedBoard;
+  //   });
+
+  //   onSelectSquare();
+  // }
 
   return (
     <div style={{ display: 'inline-block' }}>
@@ -38,7 +44,7 @@ export default function GameBoard({ onSelectSquare }) {
           {row.map((playerSymbol, colIndex) => (
             <ul key={colIndex} style={{ padding: 0, margin: 0, listStyleType: 'none' }}>
               <li>
-                <button style={buttonStyle} onClick={() => handleSelectSquare(rowIndex, colIndex)}>
+                <button style={buttonStyle} onClick={() => onSelectSquare(rowIndex, colIndex)}>
                   {playerSymbol}
                 </button>
               </li>
