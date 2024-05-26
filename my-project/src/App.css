@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Danfo&family=Jersey+25+Charted&display=swap');
 
 .App {
-  background-color: blanchedalmond;
   text-align: center;
 }
 
@@ -17,6 +16,7 @@
 }
 
 .App-header {
+  background-color: rgb(235, 219, 194);
   background-image: url('./background.png');
   background-size: cover;
   min-height: 100vh;
@@ -25,19 +25,27 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: rgb(92, 138, 203);
+  color: rgb(46, 78, 122);
 }
 
 #game-container {
   font-family: "Jersey 25 Charted", sans-serif;
-  background-color: rgb(214, 188, 128);
-  padding: 28px 46px 46px 28px;
-  justify-content: center;
+  background-color: rgb(216, 192, 134);
+  padding: 28px 46px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(226, 141, 49, 0.1);
 }
 
-GameBoard {
-  font-family: "Jersey 25 Charted", sans-serif;
+#log {
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 input {
@@ -48,6 +56,8 @@ ol {
   display: flex;
   flex-direction: row;
   gap: 12vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-link {
@@ -62,4 +72,13 @@ ol {
   to {
     transform: rotate(360deg);
   }
+}
+
+.winner-message {
+  margin-top: 20px;
+  font-size: 2em;
+  color: rgb(219, 125, 166);
+  font-family: 'Danfo', sans-serif;
+  text-shadow: 2px 2px 0px rgb(100, 20, 83);
+
 }

@@ -1,10 +1,12 @@
+import React from 'react';
+
 const initialGameBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
 ];
 
-export default function GameBoard({ onSelectSquare, turns }) {
+export default function GameBoard({ onSelectSquare, turns, gameOver, onResetGame }) {
   const buttonStyle = {
     width: '15vh',
     height: '15vh',
@@ -19,23 +21,16 @@ export default function GameBoard({ onSelectSquare, turns }) {
 
   let gameBoard = initialGameBoard;
 
-  for ( const turn of turns) {
+  for (const turn of turns) {
     const { square, player } = turn;
     const { row, col } = square;
 
     gameBoard[row][col] = player;
   }
-  // const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
-  // function handleSelectSquare(rowIndex, colIndex) {
-  //   setGameBoard((prevGameBoard) => {
-  //     const updatedBoard = prevGameBoard.map((row) => row.slice());
-  //     updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
-  //     return updatedBoard;
-  //   });
-
-  //   onSelectSquare();
-  // }
+  function handleReset() {
+    onResetGame(); // Call the onResetGame function
+  }
 
   return (
     <div style={{ display: 'inline-block' }}>
@@ -44,7 +39,11 @@ export default function GameBoard({ onSelectSquare, turns }) {
           {row.map((playerSymbol, colIndex) => (
             <ul key={colIndex} style={{ padding: 0, margin: 0, listStyleType: 'none' }}>
               <li>
-                <button style={buttonStyle} onClick={() => onSelectSquare(rowIndex, colIndex)}>
+                <button
+                  style={buttonStyle}
+                  onClick={() => onSelectSquare(rowIndex, colIndex)}
+                  disabled={gameOver || playerSymbol !== null}
+                >
                   {playerSymbol}
                 </button>
               </li>
@@ -52,6 +51,12 @@ export default function GameBoard({ onSelectSquare, turns }) {
           ))}
         </div>
       ))}
+      {gameOver && (
+        <div style={{ textAlign: 'center' }}>
+          <button onClick={handleReset}>Reset Game</button> {/* Use handleReset instead */}
+        </div>
+      )}
     </div>
   );
 }
+
