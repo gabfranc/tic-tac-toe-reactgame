@@ -1,18 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Danfo&family=Jersey+25+Charted&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Danfo&family=Jaro:opsz@6..72&family=Jersey+25+Charted&family=Rubik+Mono+One&display=swap');
 
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 20vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
@@ -25,27 +14,24 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: rgb(46, 78, 122);
+  color: rgb(28, 85, 163);
+  overflow: hidden;
+  /* Prevent scrolling */
 }
 
 #game-container {
   font-family: "Jersey 25 Charted", sans-serif;
   background-color: rgb(216, 192, 134);
-  padding: 28px 46px;
+  padding: 25px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(226, 141, 49, 0.1);
-}
+  box-shadow: 0 0 20px rgba(176, 118, 55, 0.6);
+  max-width: 100vh;
+  max-height: 80vh;
 
-#log {
-  margin-top: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 input {
@@ -55,9 +41,12 @@ input {
 ol {
   display: flex;
   flex-direction: row;
-  gap: 12vh;
+  gap: 16vh;
   justify-content: center;
   align-items: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .App-link {
@@ -74,11 +63,126 @@ ol {
   }
 }
 
+@keyframes typing {
+  from {
+    width: 0;
+    color: #fbabcd;
+  }
+
+  to {
+    width: 150%;
+    color: #7f42cf;
+  }
+}
+
+.game-title {
+  margin-top: -12vh;
+  font-size: 15.5px;
+  font-family: "Rubik Mono One", monospace;
+  text-shadow: 3px 3px 0 #dce4f5;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 3s steps(10, end) infinite;
+}
+
 .winner-message {
-  margin-top: 20px;
+  margin-top: 5px;
   font-size: 2em;
   color: rgb(219, 125, 166);
   font-family: 'Danfo', sans-serif;
   text-shadow: 2px 2px 0px rgb(100, 20, 83);
+}
 
+.player {
+  display: flex;
+  align-items: center;
+  margin-bottom: -12px;
+}
+
+.name-input {
+  display: flex;
+  align-items: center;
+}
+
+.name-input input {
+  margin-right: 5px;
+}
+
+.player-info {
+  margin-top: -25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.player-name {
+  margin-right: 25px;
+  font-size: 28px;
+}
+
+.player-symbol {
+  font-size: 26px;
+  font-family: "Rubik Mono One", monospace;
+  background-color: none !important;
+  color: rgb(82, 142, 195);
+}
+
+.Rules {
+  background: #021234;
+  color: #5d85ac;
+  justify-content: center;
+  align-items: center;
+  padding-top: 12px;
+  padding-left: 55px;
+  padding-right: 55px;
+  padding-bottom: 12px;
+  border-radius: 10px;
+}
+
+.rules-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button {
+  position: absolute;
+  font-family: "Rubik Mono One", monospace;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  color: rgb(204, 210, 253);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  top: 10px;
+  right: 10px;
+  font-size: 22px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.rules-content {
+  background-color: rgb(137, 153, 191, 0.4);
+  padding: 20px;
+  max-width: 80%;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+.RulesButtonContainer {
+  position: absolute;
+  top: 0;
 }

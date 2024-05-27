@@ -1,32 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function Player({ symbol, isActive, initialName }) {
-  const [playerName, setPlayerName] = useState(initialName);
+
+export default function Player({ symbol, isActive, initialName, onNameChange }) {
+  const [name, setName] = useState(initialName);
   const [isEditing, setIsEditing] = useState(false);
 
-  function handleEditClick() {
-    setIsEditing(!isEditing);
-  }
+  useEffect(() => {
+    setName(initialName);
+  }, [initialName]);
 
-  function handleChange(event) {
-    setPlayerName(event.target.value);
-  }
+  const handleChange = (e) => {
+    setName(e.target.value);
+  };
 
-  let playerNameElement = <span className="player-name">{playerName}</span>;
+  const handleSave = () => {
+    onNameChange(name);
+    setIsEditing(false);
+  };
 
-  if (isEditing) {
-    playerNameElement = (
-      <input type="text" required value={playerName} onChange={handleChange} />
-    );
-  }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    }
+  };
 
   return (
-    <li className={isActive ? 'active' : undefined}>
-      <span className="player">
-        {playerNameElement}
-        <span className="player-symbol">{symbol}</span>
-      </span>
-      <button onClick={handleEditClick}>{isEditing ? 'Save' : 'Edit'}</button>
-    </li>
+    <div className={`player ${isActive ? 'active' : ''}`}>
+      {isEditing ? (
+        <div className="name-input">
+          <input
+            type="text"
+            value={name}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+          />
+          <button onClick={handleSave}>Save</button>
+        </div>
+      ) : (
+        <div className="player-info" onClick={() => setIsEditing(true)}>
+          <p className="player-name">{name}</p>
+          <p className="player-symbol">{symbol}</p>
+        </div>
+      )}
+    </div>
   );
 }
+
