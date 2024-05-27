@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Player from './Player.jsx';
 import GameBoard from './GameBoard.jsx';
 import GameTitle from './GameTitle.jsx';
 import Rules from './Rules.jsx';
+import Welcome from './Welcome.jsx';
 
 function Game() {
   const [gameTurns, setGameTurns] = useState([]);
@@ -11,6 +12,7 @@ function Game() {
   const [winner, setWinner] = useState(null);
   const [playerNames, setPlayerNames] = useState({ X: 'Player 1', O: 'Player 2' });
   const [showRules, setShowRules] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   function handleSelectSquare(rowIndex, colIndex) {
     if (gameOver) {
@@ -86,16 +88,45 @@ function Game() {
     setShowRules(!showRules);
   }
 
+  function closeWelcome() {
+    setShowWelcome(false);
+    setShowRules(true);
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showWelcome && !document.querySelector('.welcome-popup').contains(event.target)) {
+        closeWelcome();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showWelcome]);
+
   return (
     <main className="App-header">
-      <div className="RulesButtonContainer">
-        <button onClick={toggleRules} class="ShowRules">Show Rules</button>
-      </div>
+      {showWelcome && (
+        <div className="welcome-backdrop" onClick={closeWelcome}>
+          <div className="welcome-popup" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={closeWelcome}>X</button>
+            <Welcome />
+          </div>
+        </div>
+      )}
       {showRules && (
         <div className="RulesContainer">
           <div className="Rules">
             <Rules onClose={toggleRules} />
           </div>
+        </div>
+      )}
+      {!showWelcome && !showRules && (
+        <div className="RulesButtonContainer">
+          <button onClick={toggleRules} className="ShowRules">Show Rules</button>
         </div>
       )}
       <div className="Title">
@@ -137,4 +168,3 @@ function Game() {
 }
 
 export default Game;
-

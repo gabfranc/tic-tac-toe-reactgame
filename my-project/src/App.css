@@ -127,6 +127,8 @@ ol {
   color: rgb(82, 142, 195);
 }
 
+/*** Rules section ***/
+
 .Rules {
   background: #021234;
   color: #5d85ac;
@@ -159,7 +161,7 @@ ol {
   right: 10px;
   background-color: transparent;
   border: none;
-  color: rgb(204, 210, 253);
+  color: rgb(0, 18, 151);
   font-size: 24px;
   cursor: pointer;
 }
@@ -184,5 +186,31 @@ button:hover {
 
 .RulesButtonContainer {
   position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+/**** Welcome pop up *****/
+.welcome-backdrop {
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(131, 105, 49, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.welcome-popup {
+  background: rgb(139, 183, 212);
+  font-family: "Jaro", sans-serif;
+  text-shadow: 2px 2px 0 #f9fbff;
+  color: rgb(20, 84, 133);
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
 }
