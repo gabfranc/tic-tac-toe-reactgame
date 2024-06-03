@@ -35,11 +35,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(151, 123, 75, 0.2);
 }
 
 .game-modal-content {
-  background-color: rgb(233, 227, 182);
+  background-color: rgb(233, 227, 182, 0.25);
   padding: 50px;
   border-radius: 10px;
   text-align: center;
@@ -49,6 +49,9 @@
 }
 
 .modal-close-button {
+  font-family: "Jaro", sans-serif;
+  color: #a75d40;
+  text-shadow: 2px 2px 0 #efefef;
   position: absolute;
   top: 10px;
   right: 10px;
