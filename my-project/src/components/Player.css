@@ -1,0 +1,17 @@
+.player {
+  font-weight: normal;
+  color: #0D3B66;
+  margin-bottom: 10px;
+  /* Default color for player names */
+}
+
+.player.active {
+  font-weight: lighter;
+  color: #325daf;
+  /* Highlight color when it's their turn */
+}
+
+.player.inactive {
+  color: #512fa1;
+  /* Default color when it's not their turn */
+}

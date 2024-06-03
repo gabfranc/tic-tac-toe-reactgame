@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import './Player.css';
 
 export default function Player({ symbol, isActive, initialName, onNameChange }) {
   const [name, setName] = useState(initialName);
@@ -13,36 +13,26 @@ export default function Player({ symbol, isActive, initialName, onNameChange }) 
     setName(e.target.value);
   };
 
-  const handleSave = () => {
-    onNameChange(name);
+  const handleBlur = () => {
     setIsEditing(false);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSave();
-    }
+    onNameChange(name);
   };
 
   return (
-    <div className={`player ${isActive ? 'active' : ''}`}>
-      {isEditing ? (
-        <div className="name-input">
+    <li className={`player ${isActive ? 'active' : 'inactive'}`}>
+      <div>
+        {symbol}: {isEditing ? (
           <input
             type="text"
             value={name}
             onChange={handleChange}
-            onKeyDown={handleKeyDown}
+            onBlur={handleBlur}
+            autoFocus
           />
-          <button onClick={handleSave}>Save</button>
-        </div>
-      ) : (
-        <div className="player-info" onClick={() => setIsEditing(true)}>
-          <p className="player-name">{name}</p>
-          <p className="player-symbol">{symbol}</p>
-        </div>
-      )}
-    </div>
+        ) : (
+          <span onClick={() => setIsEditing(true)}>{name}</span>
+        )}
+      </div>
+    </li>
   );
 }
-

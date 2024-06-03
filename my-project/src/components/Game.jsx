@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Player from './Player.jsx';
-import GameBoard from './GameBoard.jsx';
-import GameTitle from './GameTitle.jsx';
-import Rules from './Rules.jsx';
-import Welcome from './Welcome.jsx';
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:8000");
+import React, { useState } from 'react';
+import Player from './Player';
+import GameBoard from './GameBoard';
+import GameTitle from './GameTitle';
+import Rules from './Rules';
+import Welcome from './Welcome';
 
 function Game() {
   const [gameTurns, setGameTurns] = useState([]);
@@ -17,36 +14,67 @@ function Game() {
   const [showRules, setShowRules] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
 
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to the server');
-    });
-
-    socket.on('game_update', (gameState) => {
-      setGameTurns(gameState.turns);
-      setActivePlayer(gameState.active_player);
-      setGameOver(gameState.game_over);
-      setWinner(gameState.winner);
-    });
-
-    return () => {
-      socket.off('connect');
-      socket.off('game_update');
-    };
-  }, []);
-
   function handleSelectSquare(rowIndex, colIndex) {
     if (gameOver) {
       return;
     }
 
     const currentPlayer = activePlayer;
-    const newTurn = { square: { row: rowIndex, col: colIndex }, player: currentPlayer };
-    socket.emit('new_turn', newTurn);
+    setActivePlayer(currentPlayer === 'X' ? 'O' : 'X');
+    setGameTurns((prevTurns) => {
+      const updatedTurns = [
+        ...prevTurns,
+        { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
+      ];
+
+      if (checkWin(updatedTurns, currentPlayer)) {
+        setGameOver(true);
+        setWinner(currentPlayer);
+      } else if (updatedTurns.length === 9) {
+        setGameOver(true);
+        setWinner('TIE');
+      }
+
+      return updatedTurns;
+    });
+  }
+
+  function checkWin(turns, player) {
+    const board = Array(3).fill(null).map(() => Array(3).fill(null));
+    turns.forEach(({ square, player: turnPlayer }) => {
+      board[square.row][square.col] = turnPlayer;
+    });
+
+    // Check rows
+    for (let row = 0; row < 3; row++) {
+      if (board[row][0] === player && board[row][1] === player && board[row][2] === player) {
+        return true;
+      }
+    }
+
+    // Check columns
+    for (let col = 0; col < 3; col++) {
+      if (board[0][col] === player && board[1][col] === player && board[2][col] === player) {
+        return true;
+      }
+    }
+
+    // Check diagonals
+    if (board[0][0] === player && board[1][1] === player && board[2][2] === player) {
+      return true;
+    }
+    if (board[0][2] === player && board[1][1] === player && board[2][0] === player) {
+      return true;
+    }
+
+    return false;
   }
 
   function handleResetGame() {
-    socket.emit('reset_game');
+    setGameTurns([]);
+    setActivePlayer('X');
+    setGameOver(false);
+    setWinner(null);
   }
 
   function handleNameChange(symbol, newName) {
@@ -64,20 +92,6 @@ function Game() {
     setShowWelcome(false);
     setShowRules(true);
   }
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (showWelcome && !document.querySelector('.welcome-popup').contains(event.target)) {
-        closeWelcome();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showWelcome]);
 
   return (
     <main className="App-header">
@@ -105,7 +119,6 @@ function Game() {
         <GameTitle />
       </div>
       <div id="game-container">
-        {/* PLAYERS */}
         <ol id="players" className="highlight-player">
           <Player
             symbol="X"
@@ -120,20 +133,13 @@ function Game() {
             onNameChange={(name) => handleNameChange('O', name)}
           />
         </ol>
-        {/* GAME BOARD */}
         <GameBoard
           onSelectSquare={handleSelectSquare}
           turns={gameTurns}
-          activePlayerSymbol={activePlayer}
           gameOver={gameOver}
           onResetGame={handleResetGame}
+          winner={winner === 'TIE' ? 'TIE' : playerNames[winner]}
         />
-        {/* WINNER MESSAGE */}
-        {gameOver && (
-          <div className="winner-message">
-            {winner === 'TIE' ? "It's a tie!" : `${playerNames[winner]} wins!`}
-          </div>
-        )}
       </div>
     </main>
   );
